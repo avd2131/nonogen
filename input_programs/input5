@@ -1,0 +1,4 @@
+game5 = random{10x10}
+game5.hint(5)
+
+print(game5)

@@ -1,0 +1,3 @@
+game2 = new random{5x5}
+
+print(game2)
