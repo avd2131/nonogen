@@ -1,0 +1,13 @@
+<IDENTIFIER, 'game2'>
+<EQUALS, '='>
+<NEW, 'new'>
+<SPECIFIER, 'random'>
+<LBRACE, '{'>
+<INTEGER, '5'>
+<TIMES, 'x'>
+<INTEGER, '5'>
+<RBRACE, '}'>
+<FUNCTION, 'print'>
+<LPAREN, '('>
+<IDENTIFIER, 'game2'>
+<RPAREN, ')'>

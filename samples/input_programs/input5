@@ -1,4 +1,4 @@
 game5 = random{10x10}
-game5.hint(5)
+game5->title("unterminated string)
 
 print(game5)

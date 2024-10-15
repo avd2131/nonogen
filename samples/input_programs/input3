@@ -10,6 +10,6 @@ game3 = new design{
 # # # # . . . # # .
 . # # . . . . . . .
 }
-game3.title("music")
+game3->title("music")
 
 print(game3)

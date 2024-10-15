@@ -1,1 +1,1 @@
-python scanner.py $1
+python3 scanner.py $1
