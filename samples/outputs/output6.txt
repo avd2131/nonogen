@@ -1,0 +1,25 @@
+LEXICAL ANALYSIS
+<IDENTIFIER, 'game6'>
+<EQUALS, '='>
+<NEW, 'new'>
+<SPECIFIER, 'random'>
+<LBRACE, '{'>
+<INTEGER, '10'>
+<TIMES, 'x'>
+<INTEGER, '10'>
+<RBRACE, '}'>
+<IDENTIFIER, 'game6'>
+<GRID_SPECIFIER, '.'>
+<METHOD, 'title'>
+<LPAREN, '('>
+<STRING, 'my random game'>
+<RPAREN, ')'>
+<FUNCTION, 'print'>
+<LPAREN, '('>
+<IDENTIFIER, 'game6'>
+<RPAREN, ')'>
+
+SYNTACTIC ANALYSIS
+Unexpected GRID_SPECIFIER '.' at position 10.
+Expected IDENTIFIER to be followed by EQUALS or ARROW.
+Parsing was not successful.

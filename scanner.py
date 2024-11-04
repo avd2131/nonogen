@@ -65,7 +65,7 @@ class Lexer:
                     raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
             except ValueError as e:
                 self.success = False
-                print(e, file=sys.stderr)
+                print(e)
                 self.advance()
 
     # handle DFA state for recognizing arrow token

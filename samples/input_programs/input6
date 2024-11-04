@@ -1,0 +1,3 @@
+game6 = new random{10x10}
+game6.title("my random game")
+print(game6)

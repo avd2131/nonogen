@@ -16,7 +16,7 @@ with open(file_path) as file:
         for token in tokens:
             print(f"<{token[0]}, '{token[1]}'>")
     else:
-        print("Parsing was not successful.")
+        print("Scanning was not successful.")
         sys.exit(1)
     print("")
 
@@ -24,5 +24,10 @@ with open(file_path) as file:
     parser = Parser(tokens)
     parser.run()
     derivation = parser.get_derivation()
-    print(derivation)
+
+    if parser.success:
+        print(derivation)
+    else:
+        print("Parsing was not successful.")
+        sys.exit(1)
     print("")

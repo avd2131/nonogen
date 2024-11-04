@@ -1,3 +1,5 @@
+import sys
+
 class LexicalError(Exception):
     pass
 
@@ -9,6 +11,7 @@ class Parser:
         self.terminals = []
         self.derivation = ""
         self.level = 0
+        self.success = True
 
     def advance(self):
         self.position += 1
@@ -19,7 +22,14 @@ class Parser:
 
     def run(self):
         while self.lookahead is not None:
-            self.S()
+            try:
+                self.S()
+            except LexicalError as e:
+                self.success = False
+                print(e)
+                # resume parsing with next statement
+                while self.lookahead is not None and self.lookahead not in ["IDENTIFIER", "FUNCTION"]:
+                    self.advance()
 
     def term(self, terminal):
         if self.lookahead[0] == terminal:
@@ -37,7 +47,8 @@ class Parser:
         elif self.term("FUNCTION") and self.term("LPAREN") and self.term("IDENTIFIER") and self.term("RPAREN"):
             pass
         else:
-            raise LexicalError(f"Unexpected statement f{self.lookahead}.")
+            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                               f"Expected statement to start with IDENTIFIER or FUNCTION.")
         self.level -= 1
 
     def A(self):
@@ -50,7 +61,8 @@ class Parser:
             self.D()
             self.term("RPAREN")
         else:
-            raise LexicalError(f"Unexpected statement f{self.lookahead}.")
+            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                               f"Expected IDENTIFIER to be followed by EQUALS or ARROW.")
         self.level -= 1
 
     def B(self):
@@ -62,7 +74,8 @@ class Parser:
         elif self.term("INTEGER") and self.term("TIMES") and self.term("INTEGER"):
             pass
         else:
-            raise LexicalError(f"Unexpected statement f{self.lookahead}.")
+            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                               f"Expected GRID_SPECIFIER or grid size (INTEGER TIMES INTEGER) following creation of game object.")
         self.level -= 1
 
     def D(self):
@@ -71,7 +84,8 @@ class Parser:
         if self.term("STRING") or self.term("INTEGER"):
             pass
         else:
-            raise LexicalError(f"Unexpected statement f{self.lookahead}.")
+            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                               f"Expected STRING or INTEGER as argument for method.")
         self.level -= 1
 
     def get_terminals(self):
