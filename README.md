@@ -60,3 +60,4 @@ message to the user that there is an unexpected character at the given position.
 * Program 5 has a string that is not terminated. The parser does not know where the string ends, so it prints a message
 to the user that there is an unterminated string beginning at a certain position.
 * Program 6 demonstrates a syntactic error: the correct syntax is 'game6->title'.
+* Program 7 demonstrates another syntactic error. Here the keyword 'new' is missing when creating a game object.

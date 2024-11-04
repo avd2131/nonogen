@@ -48,7 +48,7 @@ class Parser:
             pass
         else:
             raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected statement to start with IDENTIFIER or FUNCTION.")
+                               f"Expected statement to start with IDENTIFIER or FUNCTION LPAREN IDENTIFIER RPAREN.")
         self.level -= 1
 
     def A(self):
@@ -62,7 +62,7 @@ class Parser:
             self.term("RPAREN")
         else:
             raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected IDENTIFIER to be followed by EQUALS or ARROW.")
+                               f"Expected IDENTIFIER to be followed by EQUALS NEW SPECIFIER LBRACE or ARROW METHOD LPAREN.")
         self.level -= 1
 
     def B(self):
