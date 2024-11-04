@@ -151,16 +151,3 @@ class Lexer:
     # return list of tokens
     def get_tokens(self):
         return self.tokens
-
-file_path = sys.argv[1]
-with open(file_path) as file:
-    input_expression = file.read()
-    lexer_dfa = Lexer(input_expression)
-    lexer_dfa.run()
-    tokens = lexer_dfa.get_tokens()
-
-    if lexer_dfa.success:
-        for token in tokens:
-            print(f"<{token[0]}, '{token[1]}'>")
-    else:
-        print("Parsing was not successful.")

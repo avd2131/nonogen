@@ -1,4 +1,4 @@
-game1 = new {design
+game1 = new design{
 . . # . . . # . .
 . # # # . # # # .
 # . . . # . . . #

@@ -12,7 +12,7 @@ g@me4 = new design{
 . . # # # # # # # # # # # # # . .
 . . . . # # # # # # # . . . . . .
 }
-g@me4.title("snail")
-g@me4.hint(2)
+g@me4->title("snail")
+g@me4->hint(2)
 
 print(g@me4)
