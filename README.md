@@ -4,7 +4,7 @@ Anna-Samsara Daefler (avd2131)
 ## Lexical Analysis
 I developed a scanner that processes NonoGen source code and outputs a list of tokens. My scanner shows state
 transitions with finite automata. Lexical errors in the input program are handled by the parser printing a message
-to stderr and advancing to the next character, such that the user can view and correct all lexical errors in one pass.
+and advancing to the next character, such that the user can view and correct all lexical errors in one pass.
 
 ### Lexical Grammar
 The following list provides a lexical specification of rules in order of priority.
@@ -46,9 +46,9 @@ C --> GRID_SPECIFIER C | ε
 D --> STRING | INTEGER
 
 ## Executing Compiler
-Use the shell script scan.sh to execute the compiler. Please make sure the system has Python3.
+Use the shell script compile.sh to execute the compiler. Please make sure the system has Python3.
 
-```./scan.sh <input_file>```
+```./compile.sh <input_file>```
 
 ### Input Programs
 Sample input programs can be found under samples/input_programs/ with their corresponding
@@ -61,3 +61,6 @@ message to the user that there is an unexpected character at the given position.
 to the user that there is an unterminated string beginning at a certain position.
 * Program 6 demonstrates a syntactic error: the correct syntax is 'game6->title'.
 * Program 7 demonstrates another syntactic error. Here the keyword 'new' is missing when creating a game object.
+
+## Demo Video
+https://www.youtube.com/watch?v=cdqBqOCQu3A

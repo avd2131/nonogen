@@ -8,7 +8,7 @@ LEXICAL ANALYSIS
 <INTEGER, '10'>
 <RBRACE, '}'>
 <IDENTIFIER, 'game7'>
-<ARROW, '->'>
+<GRID_SPECIFIER, '.'>
 <METHOD, 'hint'>
 <LPAREN, '('>
 <INTEGER, '3'>
@@ -20,5 +20,7 @@ LEXICAL ANALYSIS
 
 SYNTACTIC ANALYSIS
 Unexpected SPECIFIER 'random' at position 2.
+Expected IDENTIFIER to be followed by EQUALS NEW SPECIFIER LBRACE or ARROW METHOD LPAREN.
+Unexpected GRID_SPECIFIER '.' at position 9.
 Expected IDENTIFIER to be followed by EQUALS NEW SPECIFIER LBRACE or ARROW METHOD LPAREN.
 Parsing was not successful.

@@ -28,7 +28,7 @@ class Parser:
                 self.success = False
                 print(e)
                 # resume parsing with next statement
-                while self.lookahead is not None and self.lookahead not in ["IDENTIFIER", "FUNCTION"]:
+                while self.lookahead is not None and self.lookahead[0] not in ["IDENTIFIER", "FUNCTION"]:
                     self.advance()
 
     def term(self, terminal):

@@ -1,3 +1,3 @@
-String beginning at position 35 is not terminated.
 LEXICAL ANALYSIS
-Parsing was not successful.
+String beginning at position 35 is not terminated.
+Scanning was not successful.
