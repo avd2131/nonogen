@@ -26,6 +26,7 @@ class Application(tk.Tk):
 
         self.board = []
         self.scoring = np.zeros(self.grid_size)
+        self.status = None
 
         super().__init__()
         self.title(self.game_title)
@@ -54,11 +55,15 @@ class Application(tk.Tk):
                     btn = tk.Button(board, command=lambda row=i, col=j: self.select(row, col))
                     btn.grid(row=i, column=j, sticky="news")
                     self.board.append(btn)
-        submit = tk.Button(board, command=self.check, text='Submit')
+        submit = tk.Button(board, command=lambda: self.check(board), text='Submit')
         submit.grid(row=0, column=0, sticky="news")
 
 
     def select(self, row, col):
+        if self.status and self.status["text"] == "Try again...":
+            self.status.destroy()
+            self.status = None
+
         row, col = row - 1, col - 1
         btn = self.board[row * self.grid_size[1] + col]
         if btn["text"]:
@@ -68,6 +73,10 @@ class Application(tk.Tk):
             btn.config(text="X")
             self.scoring[row, col] = 1
 
-    def check(self):
-        # TODO: add logic for game complete / wrong
-        print(np.array_equal(self.scoring, self.design))
+    def check(self, board):
+        if np.array_equal(self.scoring, self.design):
+            self.status = tk.Label(board, text="Correct!", font=("Arial", 50))
+            self.status.place(relx=0.5, rely=0.5, anchor="center")
+        else:
+            self.status = tk.Label(board, text="Try again...", font=("Arial", 50))
+            self.status.place(relx=0.5, rely=0.5, anchor="center")
