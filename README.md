@@ -13,7 +13,7 @@ The following list provides a lexical specification of rules in order of priorit
 2) ('SPECIFIER', r'design|random')
 3) ('FUNCTION', r'print|play')
 4) ('METHOD', r'title|hint')
-5) ('GRID_SPECIFIER', r'\.|#')
+5) ('GRID_SPECIFIER', r'\.|#|\.!|#!')
 6) ('ARROW', r'->')
 7) ('EQUALS', r'=')
 8) ('TIMES', r'x')
@@ -44,6 +44,14 @@ B --> GRID_SPECIFIER C | INTEGER TIMES INTEGER
 C --> GRID_SPECIFIER C | ε
 
 D --> STRING | INTEGER
+
+
+### Code Generation
+This stage processes the AST from the syntactic analysis phase and outputs another high level
+language that will be run on some target platform.  
+TODO:
+    * process AST generated and output Python code
+    * develop pipeline that further executes generated code to produce required output for program
 
 ## Executing Compiler
 Use the shell script compile.sh to execute the compiler. Please make sure the system has Python3.

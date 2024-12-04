@@ -2,7 +2,7 @@ import sys
 
 class Lexer:
     def __init__(self, input_string):
-        self.input_string = input_string
+        self.input_string = input_string.replace("\n", "!")
         self.position = 0
         self.current_char = input_string[self.position] if input_string else None
         self.tokens = []
@@ -60,6 +60,10 @@ class Lexer:
                     self.advance()
                 elif self.current_char == ')':
                     self.tokens.append(('RPAREN', ')'))
+                    self.advance()
+                elif self.current_char == "!":
+                    if self.tokens[-1][0] == 'GRID_SPECIFIER':
+                        self.tokens[-1] = ('GRID_SPECIFIER', self.tokens[-1][1] + "!")
                     self.advance()
                 else:
                     raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")

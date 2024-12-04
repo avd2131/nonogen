@@ -34,7 +34,7 @@ class Parser:
     def term(self, terminal):
         if self.lookahead[0] == terminal:
             self.terminals.append(self.lookahead)
-            self.derivation += '\t' * self.level + self.lookahead[0] + '\n'
+            self.derivation += '\t' * self.level + self.lookahead[0] + " [" + self.lookahead[1] + "]" + '\n'
             self.advance()
             return True
         return False

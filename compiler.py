@@ -1,5 +1,7 @@
 import sys
 
+from code_gen import Generator
+from game import Application
 from parser import Parser
 from scanner import Lexer
 
@@ -31,3 +33,11 @@ with open(file_path) as file:
         print("Parsing was not successful.")
         sys.exit(1)
     print("")
+
+    print("CODE GENERATION")
+    generator = Generator(derivation)
+    generator.run()
+    design, grid_size = generator.get_design(), generator.get_grid_size()
+
+    app = Application(grid_size, design)
+    app.mainloop()
