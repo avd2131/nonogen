@@ -1,7 +1,6 @@
-import sys
-
 class LexicalError(Exception):
     pass
+
 
 class Parser:
     def __init__(self, tokens):
@@ -28,7 +27,7 @@ class Parser:
                 self.success = False
                 print(e)
                 # resume parsing with next statement
-                while self.lookahead is not None and self.lookahead[0] not in ["IDENTIFIER", "FUNCTION"]:
+                while self.lookahead is not None and self.lookahead[0] not in ["NEW", "ATTRIBUTE"]:
                     self.advance()
 
     def term(self, terminal):
@@ -42,31 +41,18 @@ class Parser:
     def S(self):
         self.derivation += "S\n"
         self.level += 1
-        if self.term("IDENTIFIER"):
-            self.A()
-        elif self.term("FUNCTION") and self.term("LPAREN") and self.term("IDENTIFIER") and self.term("RPAREN"):
-            pass
-        else:
-            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected statement to start with IDENTIFIER or FUNCTION LPAREN IDENTIFIER RPAREN.")
-        self.level -= 1
-
-    def A(self):
-        self.derivation += '\t' * self.level + "A\n"
-        self.level += 1
-        if self.term("EQUALS") and self.term("NEW") and self.term("SPECIFIER") and self.term("LBRACE"):
-            self.B()
+        if self.term("NEW") and self.term("SPECIFIER") and self.term("LBRACE"):
+            self.N()
             self.term("RBRACE")
-        elif self.term("ARROW") and self.term("METHOD") and self.term("LPAREN"):
-            self.D()
-            self.term("RPAREN")
+        elif self.term("ATTRIBUTE") and self.term("EQUALS"):
+            self.A()
         else:
             raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected IDENTIFIER to be followed by EQUALS NEW SPECIFIER LBRACE or ARROW METHOD LPAREN.")
+                               f"Expected statement to start with NEW or ATTRIBUTE EQUALS.")
         self.level -= 1
 
-    def B(self):
-        self.derivation += '\t' * self.level + "B\n"
+    def N(self):
+        self.derivation += '\t' * self.level + "N\n"
         self.level += 1
         if self.term("GRID_SPECIFIER"):
             while self.term("GRID_SPECIFIER"):
@@ -74,18 +60,19 @@ class Parser:
         elif self.term("INTEGER") and self.term("TIMES") and self.term("INTEGER"):
             pass
         else:
-            raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected GRID_SPECIFIER or grid size (INTEGER TIMES INTEGER) following creation of game object.")
+            raise LexicalError(
+                f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                f"Expected GRID_SPECIFIER or grid size (INTEGER TIMES INTEGER) following creation of game object.")
         self.level -= 1
 
-    def D(self):
-        self.derivation += '\t' * self.level + "D\n"
+    def A(self):
+        self.derivation += '\t' * self.level + "A\n"
         self.level += 1
         if self.term("STRING") or self.term("INTEGER"):
             pass
         else:
             raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected STRING or INTEGER as argument for method.")
+                               f"Expected STRING or INTEGER.")
         self.level -= 1
 
     def get_terminals(self):

@@ -1,9 +1,9 @@
 import sys
 
-from code_gen import Generator
-from game import Application
-from parser import Parser
 from scanner import Lexer
+from parser import Parser
+from generator import Generator
+from game import Application
 
 file_path = sys.argv[1]
 with open(file_path) as file:
@@ -26,6 +26,7 @@ with open(file_path) as file:
     parser = Parser(tokens)
     parser.run()
     derivation = parser.get_derivation()
+    terminals = parser.get_terminals()
 
     if parser.success:
         print(derivation)
@@ -34,10 +35,8 @@ with open(file_path) as file:
         sys.exit(1)
     print("")
 
-    print("CODE GENERATION")
-    generator = Generator(derivation)
+    generator = Generator(terminals)
     generator.run()
-    design, grid_size = generator.get_design(), generator.get_grid_size()
-
+    grid_size, design = generator.get_grid_size(), generator.get_design()
     app = Application(grid_size, design)
     app.mainloop()
