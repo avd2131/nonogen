@@ -60,9 +60,6 @@ class Generator:
                     self.hints = self.terminals[i][1]
                 i += 1
 
-    def get_design(self):
-        return self.design
-
-    def get_grid_size(self):
-        return self.grid_size
+    def get_game_specs(self):
+        return self.design, self.grid_size, self.title, self.hints
 

@@ -37,6 +37,6 @@ with open(file_path) as file:
 
     generator = Generator(terminals)
     generator.run()
-    grid_size, design = generator.get_grid_size(), generator.get_design()
-    app = Application(grid_size, design)
+    game_specs = generator.get_game_specs()
+    app = Application(game_specs)
     app.mainloop()

@@ -1,15 +1,34 @@
 import tkinter as tk
 import numpy as np
 
+def calc_label(row):
+    label = ""
+    count = 0
+
+    for g in row:
+        if g == 1:
+            count += 1
+        if g == 0 and count > 0:
+            if label:
+                label += ", "
+            label += str(count)
+            count = 0
+    if count > 0:
+        if label:
+            label += ", "
+        label += str(count)
+
+    return label
+
 class Application(tk.Tk):
-    def __init__(self, grid_size, design):
-        self.grid_size = grid_size
+    def __init__(self, game_specs):
+        self.design, self.grid_size, self.game_title, self.hints = game_specs
+
         self.board = []
-        self.design = design
-        self.scoring = np.zeros(grid_size)
+        self.scoring = np.zeros(self.grid_size)
 
         super().__init__()
-        self.title("nonogram")
+        self.title(self.game_title)
 
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
@@ -21,16 +40,15 @@ class Application(tk.Tk):
         board.columnconfigure(tuple(range(self.grid_size[1] + 1)), weight=1)
 
         # create grid of buttons
-        # TODO: calculate & print hints for each row / col
         for i in range(self.grid_size[0] + 1):
             for j in range(self.grid_size[1] + 1):
                 if i == 0 and j == 0:
                     continue
                 if j == 0:
-                    lbl = tk.Label(board, text="hint")
+                    lbl = tk.Label(board, text=calc_label(self.design[i - 1]))
                     lbl.grid(row=i, column=j, sticky="news")
                 elif i == 0:
-                    lbl = tk.Label(board, text="hint")
+                    lbl = tk.Label(board, text=calc_label(self.design[:, j - 1]))
                     lbl.grid(row=i, column=j, sticky="news")
                 else:
                     btn = tk.Button(board, command=lambda row=i, col=j: self.select(row, col))
