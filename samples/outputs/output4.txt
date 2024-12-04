@@ -1,6 +1,0 @@
-LEXICAL ANALYSIS
-Unexpected character @ in position 1.
-Unexpected character @ in position 431.
-Unexpected character @ in position 453.
-Unexpected character @ in position 475.
-Scanning was not successful.

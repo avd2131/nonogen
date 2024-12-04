@@ -1,3 +1,0 @@
-LEXICAL ANALYSIS
-String beginning at position 35 is not terminated.
-Scanning was not successful.
