@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 
 class GenerationError(Exception):
@@ -46,11 +47,17 @@ class Generator:
                             self.design[j // cols, j % cols] = 1
                     i += 1
                 elif specifier == "random":
-                    rows = self.terminals[i][1]
+                    rows = int(self.terminals[i][1])
                     i += 2
-                    cols = self.terminals[i][1]
+                    cols = int(self.terminals[i][1])
                     self.grid_size = (rows, cols)
                     i += 2
+                    # generate random design
+                    self.design = np.zeros((rows, cols))
+                    for r in range(rows):
+                        for c in range(cols):
+                            if bool(random.getrandbits(1)):
+                                self.design[r, c] = 1
             elif self.terminals[i][0] == "ATTRIBUTE":
                 attribute = self.terminals[i][1]
                 i += 2
