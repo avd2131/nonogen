@@ -1,0 +1,37 @@
+LEXICAL ANALYSIS
+<NEW, 'new'>
+<SPECIFIER, 'random'>
+<LBRACE, '{'>
+<INTEGER, '5'>
+<TIMES, 'x'>
+<INTEGER, '5'>
+<RBRACE, '}'>
+<ATTRIBUTE, 'title'>
+<EQUALS, '='>
+<STRING, 'random'>
+<ATTRIBUTE, 'hints'>
+<EQUALS, '='>
+<INTEGER, '3'>
+
+SYNTACTIC ANALYSIS
+S
+	NEW [new]
+	SPECIFIER [random]
+	LBRACE [{]
+	N
+		INTEGER [5]
+		TIMES [x]
+		INTEGER [5]
+	RBRACE [}]
+S
+	ATTRIBUTE [title]
+	EQUALS [=]
+	A
+		STRING [random]
+S
+	ATTRIBUTE [hints]
+	EQUALS [=]
+	A
+		INTEGER [3]
+
+

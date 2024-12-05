@@ -13,6 +13,7 @@ def extract_value(node):
 class Generator:
     def __init__(self, terminals):
         self.terminals = terminals
+        self.success = True
 
         self.design = None
         self.grid_size = None
@@ -22,50 +23,63 @@ class Generator:
     def run(self):
         i = 0
 
-        while i < len(self.terminals):
-            if self.terminals[i][0] == "NEW":
-                i += 1
-                specifier = self.terminals[i][1]
-                i += 2
-                if specifier == "design":
-                    rows_counted = False
-                    rows = 0
-                    grid_specifiers = []
-                    while self.terminals[i][0] == "GRID_SPECIFIER":
-                        if not rows_counted:
-                            rows += 1
-                            if self.terminals[i][1].endswith("\\n"):
-                                rows_counted = True
-                        grid_specifiers.append(self.terminals[i][1])
-                        i += 1
-                    cols = len(grid_specifiers) // rows
-
-                    self.grid_size = rows, cols
-                    self.design = np.zeros((rows, cols))
-                    for j, gs in enumerate(grid_specifiers):
-                        if "#" in gs:
-                            self.design[j // cols, j % cols] = 1
+        try:
+            while i < len(self.terminals):
+                if self.terminals[i][0] == "NEW":
                     i += 1
-                elif specifier == "random":
-                    rows = int(self.terminals[i][1])
+                    specifier = self.terminals[i][1]
                     i += 2
-                    cols = int(self.terminals[i][1])
-                    self.grid_size = (rows, cols)
+                    if specifier == "design":
+                        rows_counted = False
+                        rows = 0
+                        grid_specifiers = []
+                        while self.terminals[i][0] == "GRID_SPECIFIER":
+                            if not rows_counted:
+                                rows += 1
+                                if self.terminals[i][1].endswith("\\n"):
+                                    rows_counted = True
+                            grid_specifiers.append(self.terminals[i][1])
+                            i += 1
+                        cols = len(grid_specifiers) // rows
+
+                        self.grid_size = rows, cols
+                        self.design = np.zeros((rows, cols))
+                        for j, gs in enumerate(grid_specifiers):
+                            if "#" in gs:
+                                self.design[j // cols, j % cols] = 1
+                        i += 1
+                    elif specifier == "random":
+                        rows = int(self.terminals[i][1])
+                        i += 2
+                        cols = int(self.terminals[i][1])
+                        self.grid_size = (rows, cols)
+                        i += 2
+                        # generate random design
+                        self.design = np.zeros((rows, cols))
+                        for r in range(rows):
+                            for c in range(cols):
+                                if bool(random.getrandbits(1)):
+                                    self.design[r, c] = 1
+                elif self.terminals[i][0] == "ATTRIBUTE":
+                    attribute = self.terminals[i][1]
                     i += 2
-                    # generate random design
-                    self.design = np.zeros((rows, cols))
-                    for r in range(rows):
-                        for c in range(cols):
-                            if bool(random.getrandbits(1)):
-                                self.design[r, c] = 1
-            elif self.terminals[i][0] == "ATTRIBUTE":
-                attribute = self.terminals[i][1]
-                i += 2
-                if attribute == "title":
-                    self.title = self.terminals[i][1]
-                elif attribute == "hints":
-                    self.hints = int(self.terminals[i][1])
-                i += 1
+                    if attribute == "title":
+                        if self.terminals[i][0] == "STRING":
+                            self.title = self.terminals[i][1]
+                        else:
+                            raise GenerationError("Title needs to be a string.")
+                    elif attribute == "hints":
+                        if self.terminals[i][0] == "INTEGER":
+                            self.hints = int(self.terminals[i][1])
+                        else:
+                            raise GenerationError("Number of hints needs to be an integer.")
+                    i += 1
+
+                if self.design is None:
+                    raise GenerationError("No game was created.")
+        except GenerationError as e:
+            self.success = False
+            print(e)
 
     def get_game_specs(self):
         return self.design, self.grid_size, self.title, self.hints

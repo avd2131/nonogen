@@ -1,0 +1,24 @@
+LEXICAL ANALYSIS
+<ATTRIBUTE, 'title'>
+<EQUALS, '='>
+<STRING, 'my nonogram'>
+<ATTRIBUTE, 'hints'>
+<EQUALS, '='>
+<INTEGER, '5'>
+
+SYNTACTIC ANALYSIS
+S
+	ATTRIBUTE [title]
+	EQUALS [=]
+	A
+		STRING [my nonogram]
+S
+	ATTRIBUTE [hints]
+	EQUALS [=]
+	A
+		INTEGER [5]
+
+
+CODE GENERATION
+No game was created.
+Code generation was not successful.

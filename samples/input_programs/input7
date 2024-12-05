@@ -1,3 +1,0 @@
-game7 = random{10x10}
-game7.hint(3)
-play(game7)

@@ -11,7 +11,7 @@ The following list provides a lexical specification of rules in order of priorit
 
 1) ('NEW', r'new')
 2) ('SPECIFIER', r'design|random')
-3) ('ATTRIBUTE', r'title|hint')
+3) ('ATTRIBUTE', r'title|hints')
 4) ('GRID_SPECIFIER', r'\.|#|\.\n|#\n')
 5) ('EQUALS', r'=')
 6) ('TIMES', r'x')
@@ -53,10 +53,9 @@ Use the shell script compile.sh to execute the compiler. Please make sure the sy
 Sample input programs can be found under samples/input_programs/ with their corresponding
 expected outputs under samples/outputs/. 
 
-* Programs 1 and 2 demonstrate valid input programs.
-* Program 3 demonstrates a lexical error.
-* Program 4 demonstrates a syntactic error.
-* Program 5 demonstrates a code generation error.
+* Programs 1,2, and 5 demonstrate valid input programs.
+* Program 3 demonstrates a syntactic error. The 'new' keyword is missing.
+* Program 4 demonstrates a semantic error. The 'title' and 'hint' attributes are set, but no game was created.
 
 ## Demo Video
 ** TODO ** 

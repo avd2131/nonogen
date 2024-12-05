@@ -1,4 +1,4 @@
-game1 = new design{
+new design{
 . . # . . . # . .
 . # # # . # # # .
 # . . . # . . . #
@@ -9,5 +9,5 @@ game1 = new design{
 . . . # # # . . .
 . . . . # . . . .
 }
-
-play(game1)
+title="heart"
+hints=3

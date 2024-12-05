@@ -64,9 +64,8 @@ class Application(tk.Tk):
         # give number of requested hints
         if self.hints > 0:
             # randomly select n boxes to give as hints
-            all = np.argwhere(self.design == 1).tolist()
-            hints = random.sample(all, self.hints)
-            print(hints)
+            marked = np.argwhere(self.design == 1).tolist()
+            hints = random.sample(marked, self.hints)
             for h in hints:
                 self.select(h[0] + 1, h[1] + 1)
 

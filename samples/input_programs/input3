@@ -1,4 +1,4 @@
-game3 = new design{
+design{
 . . . . . . # # # #
 . . . # # # . . . #
 . . . # . . . # # #
@@ -10,6 +10,4 @@ game3 = new design{
 # # # # . . . # # .
 . # # . . . . . . .
 }
-game3->title("music")
-
-print(game3)
+title="music"

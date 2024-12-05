@@ -35,8 +35,14 @@ with open(file_path) as file:
         sys.exit(1)
     print("")
 
+    print("CODE GENERATION")
     generator = Generator(terminals)
     generator.run()
-    game_specs = generator.get_game_specs()
-    app = Application(game_specs)
-    app.mainloop()
+    if generator.success:
+        print("Game should open in a new window.")
+        game_specs = generator.get_game_specs()
+        app = Application(game_specs)
+        app.mainloop()
+    else:
+        print("Code generation was not successful.")
+        sys.exit(1)
