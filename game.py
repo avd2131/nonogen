@@ -1,5 +1,6 @@
 import tkinter as tk
 import numpy as np
+import random
 
 def calc_label(row):
     label = ""
@@ -58,6 +59,14 @@ class Application(tk.Tk):
         submit = tk.Button(board, command=lambda: self.check(board), text='Submit')
         submit.grid(row=0, column=0, sticky="news")
 
+        # give number of requested hints
+        if self.hints > 0:
+            # randomly select n boxes to give as hints
+            all = np.argwhere(self.design == 1).tolist()
+            hints = random.sample(all, self.hints)
+            print(hints)
+            for h in hints:
+                self.select(h[0] + 1, h[1] + 1)
 
     def select(self, row, col):
         if self.status and self.status["text"] == "Try again...":

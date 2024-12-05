@@ -57,7 +57,7 @@ class Generator:
                 if attribute == "title":
                     self.title = self.terminals[i][1]
                 elif attribute == "hints":
-                    self.hints = self.terminals[i][1]
+                    self.hints = int(self.terminals[i][1])
                 i += 1
 
     def get_game_specs(self):
