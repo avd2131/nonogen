@@ -27,7 +27,7 @@ class Parser:
                 self.success = False
                 print(e)
                 # resume parsing with next statement
-                while self.lookahead is not None and self.lookahead[0] not in ["NEW", "ATTRIBUTE"]:
+                while self.lookahead is not None and self.lookahead[0] not in ["IDENTIFIER"]:
                     self.advance()
 
     def term(self, terminal):
@@ -41,14 +41,29 @@ class Parser:
     def S(self):
         self.derivation += "S\n"
         self.level += 1
-        if self.term("NEW") and self.term("SPECIFIER") and self.term("LBRACE"):
-            self.N()
-            self.term("RBRACE")
-        elif self.term("ATTRIBUTE") and self.term("EQUALS"):
-            self.A()
+
+        if self.term("IDENTIFIER"):
+            self.I()
+        elif self.term("FUNCTION") and self.term("LPAREN") and self.term("IDENTIFIER") and self.term("RPAREN"):
+            pass
         else:
             raise LexicalError(f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                               f"Expected statement to start with NEW or ATTRIBUTE EQUALS.")
+                               f"Expected statement to start with IDENTIFIER or FUNCTION.")
+
+        self.level -= 1
+
+    def I(self):
+        self.derivation += '\t' * self.level + "I\n"
+        self.level += 1
+        if self.term("EQUALS") and self.term("NEW") and self.term("SPECIFIER") and self.term("LBRACE"):
+            self.N()
+            self.term("RBRACE")
+        elif self.term("ARROW") and self.term("ATTRIBUTE") and self.term("EQUALS"):
+            self.A()
+        else:
+            raise LexicalError(
+                f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
+                f"Expected EQUALS or ARROW following IDENTIFIER.")
         self.level -= 1
 
     def N(self):

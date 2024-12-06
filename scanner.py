@@ -30,17 +30,23 @@ class Lexer:
                     self.tokens.append(('NEW', self.match_keyword('new')))
                 elif self.current_char in ('d', 'r'):
                     self.tokens.append(self.specifier())
+                elif self.current_char == 'p':
+                    self.tokens.append(self.function())
                 elif self.current_char in ('t', 'h'):
                     self.tokens.append(self.attribute())
                 elif self.current_char in ('.', '#'):
                     self.tokens.append(('GRID_SPECIFIER', self.current_char))
                     self.advance()
+                elif self.current_char == '-':
+                    self.tokens.append(self.arrow())
                 elif self.current_char == '=':
                     self.tokens.append(('EQUALS', '='))
                     self.advance()
                 elif self.current_char == 'x':
                     self.tokens.append(('TIMES', 'x'))
                     self.advance()
+                elif self.current_char.isalpha():
+                    self.tokens.append(self.identifier())
                 elif self.current_char.isdigit():
                     self.tokens.append(self.integer())
                 elif self.current_char == '"':
@@ -51,12 +57,27 @@ class Lexer:
                 elif self.current_char == '}':
                     self.tokens.append(('RBRACE', '}'))
                     self.advance()
+                elif self.current_char == '(':
+                    self.tokens.append(('LPAREN', '('))
+                    self.advance()
+                elif self.current_char == ')':
+                    self.tokens.append(('RPAREN', ')'))
+                    self.advance()
                 else:
                     raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
             except ValueError as e:
                 self.success = False
                 print(e)
                 self.advance()
+
+    # handle DFA state for recognizing arrow token
+    def arrow(self):
+        self.advance()
+        if self.current_char == '>':
+            self.advance()
+            return ('ARROW', '->')
+        else:
+            raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
 
     # handle DFA state for recognizing keywords
     def match_keyword(self, keyword):
@@ -75,6 +96,22 @@ class Lexer:
 
         return 'SPECIFIER', self.match_keyword(keyword)
 
+    # handle DFA state for recognizing function token
+    def function(self):
+        self.advance()
+        if self.current_char == 'r':
+            match = 'print'
+        elif self.current_char == 'l':
+            match = 'play'
+        else:
+            raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
+
+        for c in match[1:]:
+            if self.current_char != c:
+                raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
+            self.advance()
+        return ('FUNCTION', match)
+
     # handle DFA state for recognizing attribute token
     def attribute(self):
         if self.current_char == 't':
@@ -83,6 +120,14 @@ class Lexer:
             keyword = 'hints'
 
         return 'ATTRIBUTE', self.match_keyword(keyword)
+
+    # handle DFA state for recognizing an identifier token
+    def identifier(self):
+        identifier_str = ''
+        while self.current_char is not None and (self.current_char.isalpha() or self.current_char.isdigit()):
+            identifier_str += self.current_char
+            self.advance()
+        return ('IDENTIFIER', identifier_str)
 
     # handle DFA state for recognizing an integer token
     def integer(self):
