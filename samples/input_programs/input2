@@ -1,3 +1,10 @@
-new random{5x5}
-title="random"
-hints=3
+game1 = new random{5x5}
+game1->title = "my first game"
+game1->hints = 3
+
+game2 = new random{6x6}
+game2->title = "my second game"
+game2->hints = 5
+
+play(game1)
+play(game2)
