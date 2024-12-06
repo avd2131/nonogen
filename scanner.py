@@ -26,14 +26,8 @@ class Lexer:
                 elif self.current_char.isspace():
                     # ignore whitespace
                     self.advance()
-                elif self.current_char == 'n':
-                    self.tokens.append(('NEW', self.match_keyword('new')))
-                elif self.current_char in ('d', 'r'):
-                    self.tokens.append(self.specifier())
-                elif self.current_char == 'p':
-                    self.tokens.append(self.function())
-                elif self.current_char in ('t', 'h'):
-                    self.tokens.append(self.attribute())
+                elif self.current_char.isalpha():
+                    self.tokens.append(self.alpha())
                 elif self.current_char in ('.', '#'):
                     self.tokens.append(('GRID_SPECIFIER', self.current_char))
                     self.advance()
@@ -45,8 +39,6 @@ class Lexer:
                 elif self.current_char == 'x':
                     self.tokens.append(('TIMES', 'x'))
                     self.advance()
-                elif self.current_char.isalpha():
-                    self.tokens.append(self.identifier())
                 elif self.current_char.isdigit():
                     self.tokens.append(self.integer())
                 elif self.current_char == '"':
@@ -79,55 +71,23 @@ class Lexer:
         else:
             raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
 
-    # handle DFA state for recognizing keywords
-    def match_keyword(self, keyword):
-        for c in keyword:
-            if self.current_char != c:
-                raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
-            self.advance()
-        return keyword
-
-    # handle DFA state for recognizing specifier token
-    def specifier(self):
-        if self.current_char == 'd':
-            keyword = 'design'
-        elif self.current_char == 'r':
-            keyword = 'random'
-
-        return 'SPECIFIER', self.match_keyword(keyword)
-
-    # handle DFA state for recognizing function token
-    def function(self):
-        self.advance()
-        if self.current_char == 'r':
-            match = 'print'
-        elif self.current_char == 'l':
-            match = 'play'
-        else:
-            raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
-
-        for c in match[1:]:
-            if self.current_char != c:
-                raise ValueError(f"Unexpected character {self.current_char} in position {self.position}.")
-            self.advance()
-        return ('FUNCTION', match)
-
-    # handle DFA state for recognizing attribute token
-    def attribute(self):
-        if self.current_char == 't':
-            keyword = 'title'
-        elif self.current_char == 'h':
-            keyword = 'hints'
-
-        return 'ATTRIBUTE', self.match_keyword(keyword)
-
-    # handle DFA state for recognizing an identifier token
-    def identifier(self):
-        identifier_str = ''
+    # handle DFA state for recognizing alphanumeric tokens
+    def alpha(self):
+        token = ""
         while self.current_char is not None and (self.current_char.isalpha() or self.current_char.isdigit()):
-            identifier_str += self.current_char
+            token += self.current_char
             self.advance()
-        return ('IDENTIFIER', identifier_str)
+
+            if token == 'new':
+                return self.tokens.append(('NEW', token))
+            elif token in ('design', 'random'):
+                return self.tokens.append(('SPECIFIER', token))
+            elif token in ('print', 'play'):
+                return self.tokens.append(('FUNCTION', token))
+            elif token in ('title', 'hints'):
+                return self.tokens.append(('ATTRIBUTE', token))
+
+        return ('IDENTIFIER', token)
 
     # handle DFA state for recognizing an integer token
     def integer(self):
