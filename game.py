@@ -2,6 +2,7 @@ import tkinter as tk
 import numpy as np
 import random
 
+
 def calc_label(row):
     label = ""
     count = 0
@@ -18,8 +19,6 @@ def calc_label(row):
         if label:
             label += ", "
         label += str(count)
-    if not label:
-        label = "0"
 
     return label
 

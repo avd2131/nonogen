@@ -42,7 +42,8 @@ A --> STRING | INTEGER
 This stage processes the AST from the syntactic analysis phase and outputs another high level
 language that will be run on some target platform. Specifically first, my algorithm processes the AST from
 the previous stage and extracts the required game specifications. Then my compiler passes this information
-to a pipeline that further executes the generated code to produce an interactive game.
+to a pipeline that further executes the generated code to produce an interactive game, which will open in a 
+new window.
 
 ## Executing Compiler
 Use the shell script compile.sh to execute the compiler. Please make sure the system has Python3.
