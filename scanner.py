@@ -36,9 +36,6 @@ class Lexer:
                 elif self.current_char == '=':
                     self.tokens.append(('EQUALS', '='))
                     self.advance()
-                elif self.current_char == 'x':
-                    self.tokens.append(('TIMES', 'x'))
-                    self.advance()
                 elif self.current_char.isdigit():
                     self.tokens.append(self.integer())
                 elif self.current_char == '"':
@@ -78,16 +75,18 @@ class Lexer:
             token += self.current_char
             self.advance()
 
-            if token == 'new':
-                return self.tokens.append(('NEW', token))
-            elif token in ('design', 'random'):
-                return self.tokens.append(('SPECIFIER', token))
-            elif token in ('print', 'play'):
-                return self.tokens.append(('FUNCTION', token))
-            elif token in ('title', 'hints'):
-                return self.tokens.append(('ATTRIBUTE', token))
+            if token == 'x' and not self.current_char.isalpha():
+                return 'TIMES', token
 
-        return ('IDENTIFIER', token)
+        if token == 'new':
+            return 'NEW', token
+        elif token in ('design', 'random'):
+            return 'SPECIFIER', token
+        elif token in ('print', 'play'):
+            return 'FUNCTION', token
+        elif token in ('title', 'hints'):
+            return 'ATTRIBUTE', token
+        return 'IDENTIFIER', token
 
     # handle DFA state for recognizing an integer token
     def integer(self):
