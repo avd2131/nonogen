@@ -39,10 +39,22 @@ with open(file_path) as file:
     generator = Generator(terminals)
     generator.run()
     if generator.success:
-        print("Game should open in a new window.")
-        game_specs = generator.get_game_specs()
-        app = Application(game_specs)
-        app.mainloop()
+        function_calls = generator.get_function_calls()
+        symbol_table = generator.get_symbol_table()
+        for function_call in function_calls:
+            if function_call[0] == "print":
+                identifier = function_call[1]
+                game_specs = symbol_table[identifier]
+                print(identifier, "{")
+                for key, value in symbol_table[identifier].items():
+                    print(key, "\n", value)
+                print("}\n")
+            elif function_call[0] == "play":
+                identifier = function_call[1]
+                print(f"Game '{identifier}' should open in a new window.")
+                game_specs = symbol_table[identifier]
+                app = Application(game_specs)
+                app.mainloop()
     else:
         print("Code generation was not successful.")
         sys.exit(1)

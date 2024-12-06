@@ -22,9 +22,10 @@ def calc_label(row):
 
     return label
 
+
 class Application(tk.Tk):
     def __init__(self, game_specs):
-        self.design, self.grid_size, self.game_title, self.hints = game_specs
+        self.design, self.grid_size, self.game_title, self.hints = game_specs["design"], game_specs["grid_size"], game_specs["title"], game_specs["hints"]
 
         self.board = []
         self.scoring = np.zeros(self.grid_size)
