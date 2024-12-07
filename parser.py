@@ -63,7 +63,7 @@ class Parser:
         else:
             raise LexicalError(
                 f"Unexpected {self.lookahead[0]} '{self.lookahead[1]}' at position {self.position}.\n"
-                f"Expected EQUALS or ARROW following IDENTIFIER.")
+                f"Expected EQUALS NEW SPECIFIER LBRACE or ARROW ATTRIBUTE EQUALS following IDENTIFIER.")
         self.level -= 1
 
     def N(self):

@@ -79,7 +79,7 @@ class Generator:
                                 else:
                                     raise GenerationError("Number of hints needs to be an integer.")
                         except KeyError:
-                            raise GenerationError("Identifier used without definition.")
+                            raise GenerationError(f"Identifier '{identifier}' used without definition.")
                         i += 1
                 elif self.terminals[i][0] == "FUNCTION":
                     function = self.terminals[i][1]
