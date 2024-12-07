@@ -4,7 +4,17 @@ game1->hints = 3
 
 game2 = new random{6x6}
 game2->title = "my second game"
-game2->hints = 5
+game2->hints = 2
+
+game3 = new design{
+# . . . #
+. # . # .
+. . # . .
+. # . # .
+# . . . #
+}
+game3->title = "X"
 
 play(game1)
-play(game2)
+print(game2)
+play(game3)
